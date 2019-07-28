@@ -1,0 +1,203 @@
+@keyframes blinkingText{
+    0%{     bottom: 10px; }
+    50%{    bottom: 30px; }
+    100%{   bottom: 10px; }
+}
+body, div[data-role="page"] {
+  background: #280028 !important;
+}
+img.flag{
+    position: relative;
+    width: 36px;
+    left: 20px;
+}
+a.profile-main{
+    padding-left: 4.35em !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: transparent !important;
+    color: white !important;
+    text-shadow: none;
+    border: none !important;
+}
+.ui-listview>li p{
+    margin: 7.25px 20px
+}
+.ui-listview>li a img{
+    max-height: 6em !important;
+    max-width: 6em !important;
+}
+
+#home_page div[data-role="header"]{
+  background-image: url(../img/load-1.gif) !important;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  height: 150px;
+  box-shadow: 0 0 50px #000 inset;
+}
+.detail_page{
+
+}
+#totalPeople {
+    font-size: 26px;
+    margin: 0px;
+    font-family: lato !important;
+    position: relative;
+    animation:blinkingText 3s infinite;
+}
+#totalPeople span{
+  display: block;
+  font-size: 72px;
+}
+#people_list{
+  background: #FFFFFF;
+  padding: 15px;
+}
+.single-profile-info h3{
+    font-size: 24px;
+    color: #fff;
+    text-shadow: none;
+}
+.single-profile-info h3 span{
+    font-size: 13px;
+    color: darkgray;
+    font-weight: normal;
+    text-align: right;
+    float: right;
+    border-left: 1px solid darkgray;
+    padding-left: 10px;
+    text-transform: none;
+    margin-top: 3px
+}
+
+a.overlay-btn{
+    width: 45px;
+    display: inline-block;
+    bottom: 0px;
+    z-index: 9999;
+    padding: 0px !important;
+    height: 45px;
+    color: white !important;
+    text-shadow: none !important;
+    border-radius: 100px !important;
+    position: relative !important;
+
+}
+a.overlay-btn i{
+    margin-top: 15.5px;
+}
+a.twitter-btn{
+    right: 20%;
+    border: none !important;
+    background: #2aD !important;
+    box-shadow: none !important;
+}
+
+a.wikipedia-btn{
+    right: 18%;
+    border: 1px solid #5f5f5f !important;
+    padding: 0px !important;
+    background: #716e6e !important;
+    position: relative;
+    right: 10px;
+}
+.single-profile-info p{
+    color: #fff;
+    text-shadow: none;
+    font-size: 18px;
+    text-transform: none;
+
+}
+.person-img-main{
+    position: relative;
+}
+.person-img-main::before {
+  content: '';
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+  height: 118px;
+  bottom: -53px;
+  transform: skewy(-8deg);
+}
+.person-description{
+    position: relative;
+    z-index: 99999
+}
+
+.loader{
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    vertical-align: middle;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/load-1.gif');
+    z-index: 999999999999999;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color:  #280028;
+    background-size: 100%;
+}
+
+.loader button{
+  position: fixed;
+  bottom: 30px;
+  left: 5%;
+  width: 90%;
+  border: none;
+  padding: 20px 0px;
+  border-radius: 25px;
+  color: #280028;
+  background: #fff;
+  font-size: 24px;
+  outline: none;
+  display: none;
+  animation:blinkingText 2s infinite;
+}
+
+
+.li-name, .li-title, .li-date{
+    margin: 3px 20px !important;
+    color: #000;
+    text-shadow: none;
+}
+.li-name{
+
+}
+.li-title{
+    text-transform: none;
+    font-size:15px !important;
+}
+.li-date{
+    text-transform: none;
+    font-size:15px !important;
+    font-style: italic;
+}
+.ui-listview>li a{
+    min-height: 5.625em !important;
+}
+.ui-listview>li a img.load-me{
+    border-radius: 8px !important;
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.ui-listview{
+    padding:5px;
+}
+.ui-listview>li a h2{
+    margin: 0px 0px 0px 18px !important
+}
+.flag-main span{
+  position: relative;
+  bottom: 5px;
+  font-size: 24px;
+  color: #280028;
+  font-weight: bold;
+  text-shadow: none;
+  text-transform: uppercase;
+}

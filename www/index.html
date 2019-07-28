@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile.js"></script>
+        <script type="text/javascript" src="js/Date.format.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <title>PEOPLE IN SPACE</title>
+    </head>
+    <body>
+      <div class="loader">
+        <button>Who Is In Space ?</button>
+      </div>
+        <div data-role="page" data-theme="b" id="home_page">
+          <div data-role="header" style="background: transparent;border: none;">
+            <h1 id="totalPeople">PEOPLE IN SPACE</h1>
+          </div>
+
+          <div data-role="main" class="ui-content">
+            <ul data-role="listview" data-inset="false" id="people_list">
+
+            </ul>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+              currDate = new Date().format('Y-d-m');
+              function parseDate(str) {
+                  var mdy = str.split('-');
+                  return new Date(mdy[0], mdy[2]-1, mdy[1]);
+              }
+              function datediff(first, second) {
+                  // Take the difference between the dates and divide by milliseconds per day.
+                  // Round to nearest whole number to deal with DST.
+                  return Math.round((second-first)/(1000*60*60*24));
+              }
+              var data_downloaded = false;
+              function download_data(){
+                $.get('https://www.zedexperts.com/api/peopleinspace/', function(data) {
+                    data = $.parseJSON(data);
+                    data_downloaded = true;
+
+                    $('#totalPeople').html("<span>"+data.number+"</span> PEOPLE IN SPACE");
+                    $('ul#people_list').empty();
+
+                    for (var i = data['people'].length - 1; i >= 0; i--) {
+                        name = data['people'][i]['name'];
+                        countryflag = data['people'][i]['countryflag'];
+                        bio = data['people'][i]['bio'];
+                        title = data['people'][i]['title'];
+                        date = data['people'][i]['launchdate'];
+                        biolink = data['people'][i]['biolink'];
+                        biophoto = data['people'][i]['biophoto'];
+                        country = data['people'][i]['country'];
+                        twitte = data['people'][i]['twitter'];
+                        launchdate = datediff(parseDate(currDate), parseDate(date));
+                        if (launchdate < 0) {
+                            strReplace = launchdate.toString().split("-");
+                            launchdate = strReplace[1];
+                        }
+                        if (twitte != "") {
+                            twitLink = '<a href="'+twitte+'" class="twitter-btn overlay-btn ui-btn ui-shadow ui-corner-all" style=""><img src="img/ico-twitter.png" width="100%"/></a>';
+                        }
+                        else{
+                            twitLink = "";
+                        }
+                        $('ul#people_list').append(
+                            '<li class="ui-li-has-thumb">'+
+                            '<a data-transition="slide" class="profile-main profile-main ui-btn ui-btn-icon-right ui-icon-carat-r" href="#page'+i+'">'+
+                            '<img class="load-me" src="img/load-img.gif" data-src='+biophoto+'>'+
+                            '<h2 class="li-name">'+name+'</h2>'+
+                            '<p class="li-title">'+title+'</p>'+
+                            '<p class="li-date">Since '+launchdate+' days</p>'+
+                            '<p><img src='+countryflag+' class="flag"></p>'+
+                            '</a>'+
+                          '</li>'
+                        );
+
+
+                        if($("#page"+i).length == 0){
+                          $('#home_page').after(
+                            '<div  data-role="page" id="page'+i+'" data-inset="false" data-url="page'+i+'" tabindex="'+i+'" class="ui-page detail_page">'+
+                            '<div class="single-profile-main">'+
+                            '<div class="person-img-main">'+
+                            '<a href="#home_page" data-transition="none" class="ui-btn ui-btn-left ui-icon-arrow-l ui-btn-icon-left ui-btn-icon-notext ui-corner-all" style="border:none;" data-role="button" role="button"></a>'+
+                            '<img src='+biophoto+' width="100%">'+
+                            '<div class="links" style="position:absolute;right:10px;bottom: 0px;">'+twitLink+
+                            '<a href="'+biolink+'" class="wikipedia-btn overlay-btn ui-btn ui-shadow ui-corner-all"><img src="img/ico-wikipedia.png" width="100%"/></a>'+
+                            '</div></div>'+
+                            '<div data-role="main" class="ui-content person-description">'+
+                            '<div class="single-profile-info">'+
+                            '<div class="flag-main">'+
+                            '<img src='+countryflag+'>'+
+                            ' <span>'+country+'</span>'+
+                            '</div>'+
+                            '<h3>'+name+'</h3>'+
+                            '<p>Since '+launchdate+' day(s)</p>'+
+                            '<p>'+title+'</p>'+
+                            '<p>'+bio+'</p>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>');
+                        }
+                    }
+
+
+
+                    $(".load-me").each(function(){
+                        var data_img = $(this).attr("data-src");                    //      $(this).attr("src",data_img);
+                        $(this).on("load", function() {
+                            $(this).attr('src',data_img);
+                        });
+                    });
+                }).fail(function() {
+                  setTimeout(function(){
+                    download_data();
+                  },1000);
+                });
+              }
+
+              $(".loader button").fadeIn();
+
+              //download data
+              download_data();
+
+              $(".loader button").click(function(){
+                  $(".loader button").hide();
+                  $(".loader").slideUp("slow");
+
+                  if(data_downloaded == false){
+                    download_data();
+                  }
+              });
+
+              $(document).delegate(".wikipedia-btn","click",function (event) {
+                  event.preventDefault();
+                  url = $(this).attr('href');
+                  cordova.InAppBrowser.open(url, '_blank', 'location=yes');
+              });
+
+            });
+        </script>
+    </body>
+
+</html>

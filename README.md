@@ -1,1 +1,1 @@
-# PeopleInSpace-App
+# People-In-Space-App
